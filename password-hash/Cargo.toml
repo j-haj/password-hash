@@ -1,0 +1,8 @@
+[package]
+name = "password-hash"
+version = "0.1.0"
+authors = ["Jeff Hajewski <jeff.hajewski@gmail.com>"]
+
+[dependencies]
+error-chain = "0.11.0"
+ring = "0.12.1"
