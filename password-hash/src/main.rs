@@ -39,15 +39,24 @@ fn run() -> Result<()> {
     // ------------------------------------------------------------------------
     static DIGEST_ALG: &'static digest::Algorithm = &digest::SHA512;
     const CREDENTIAL_LEN: usize = digest::SHA512_OUTPUT_LEN;
-    const N_ITER: u32 = 50;
+    const N_ITER: u32 = 100_000;
 
     let mut salt = [0u8; CREDENTIAL_LEN];
     let mut pbkdf2_hash = [0u8; CREDENTIAL_LEN];
+    rng.fill(&mut salt)?;
 
-    rng.fill(&mut salt);
-    pbkdf2::derive(DIGEST_ALG, N_ITER, &salt_bytes, password.as_bytes(),
+    // Hash password
+    pbkdf2::derive(DIGEST_ALG, N_ITER, &salt, password.as_bytes(),
         &mut pbkdf2_hash);
-    println!("PBKF2 hash: {:?}", String::from_utf8_lossy(&pbkdf2_hash));
+    println!("PBKDF2 hash: {:?}", String::from_utf8_lossy(&pbkdf2_hash));
+
+    // Attempt to verify the hash
+    let res = pbkdf2::verify(DIGEST_ALG, N_ITER, &salt, password.as_bytes(),
+        &pbkdf2_hash);
+    match res {
+        Ok(_) => println!("Verified password!"),
+        _ => println!("Failed to verfiy password")
+    };
     Ok(())
 }
 
