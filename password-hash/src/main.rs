@@ -37,7 +37,7 @@ fn run() -> Result<()> {
     // ------------------------------------------------------------------------
     // PBKF2
     // ------------------------------------------------------------------------
-    static DIGEST_ALG: &'static digest::Algorithm = &digest::SHA512; // What is going on here
+    static DIGEST_ALG: &'static digest::Algorithm = &digest::SHA512;
     const CREDENTIAL_LEN: usize = digest::SHA512_OUTPUT_LEN;
     const N_ITER: u32 = 50;
 
