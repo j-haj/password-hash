@@ -5,4 +5,5 @@ authors = ["Jeff Hajewski <jeff.hajewski@gmail.com>"]
 
 [dependencies]
 error-chain = "0.11.0"
+data-encoding = "2.0.0-rc.2"
 ring = "0.12.1"

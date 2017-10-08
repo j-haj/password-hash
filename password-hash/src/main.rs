@@ -1,9 +1,11 @@
 #[macro_use]
 extern crate error_chain;
 extern crate ring;
+extern crate data_encoding;
 
 use std::str;
 
+use data_encoding::BASE64;
 use ring::{digest, hmac, rand, pbkdf2};
 use ring::rand::SecureRandom;
 
@@ -48,7 +50,7 @@ fn run() -> Result<()> {
     // Hash password
     pbkdf2::derive(DIGEST_ALG, N_ITER, &salt, password.as_bytes(),
         &mut pbkdf2_hash);
-    println!("PBKDF2 hash: {:?}", String::from_utf8_lossy(&pbkdf2_hash));
+    println!("PBKDF2 hash: {:?}", BASE64.encode(&pbkdf2_hash));
 
     // Attempt to verify the hash
     let res = pbkdf2::verify(DIGEST_ALG, N_ITER, &salt, password.as_bytes(),
